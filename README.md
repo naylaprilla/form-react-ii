@@ -1,8 +1,8 @@
 # Projeto de um Formulário usando React II
 
-Iniciei o projeto cloanando meu repositório form-react
+Iniciei o projeto clonando meu repositório form-react
 
-Vamos transformar esse formulario, em um formulario de multiplas partes, ou um, multiplatform: 
+Vamos transformar esse formulario, em um formulario de multiplas partes, ou, multiplatform.
 Para isso, primeiro criamos os arquivos DadosPessoais.jsx e DadosUsuario.jsx na pasta FormularioCadastro
 
 Recortamos tudo que está no arquivo FormularioCadastro.jsx e colamos no arquivo DadosPessoais.jsx, não esqueça de arrumar os imports e nome do componente de FormularioCadastro para DadosPessoais.
