@@ -60,7 +60,8 @@ function DadosUsuario({onSubmit, validacoes}) {
             <Button 
                 type="submit" 
                 variant="contained" 
-                color="primary">
+                color="primary"
+            >
                     Próximo
             </Button>
         </form>
