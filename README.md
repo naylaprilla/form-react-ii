@@ -235,6 +235,8 @@ Como a gente viu então, posso usar o use effect como ciclo de vida do nosso com
     Adicionamos um componente Typography na const formularios. Assim criamos a página de finalização do formulario.
     Para adicionar a navegação entre as partes desse formulario na parte visual para essa pagina final, usamos componentes do MUI, o Stepper com activeStep={etapaAtual}, Step e StepLabel dentro do return da função proximo. 
 
+## Regras de validação
+
 Agora, tiramos as validações de App.js e criamos uma nova pasta chamada models, que vem de modelos de negócios ou regras.
  Dentro dela vamos criar o arquivo chamado cadastro.js, neste arquivo colamos a função validarCPF que estava em App.js
   Duplicamos a função validarCPF e trocamos o nome para validarSenha, além das outras informações que precisam ser trocadas de cpf para senha.
@@ -259,7 +261,80 @@ Agora, tiramos as validações de App.js e criamos uma nova pasta chamada models
     E então substituimos por:
           novoEstado[name] = validacoes[name](value)
 
-      Sendo assim eliminamos completamente a variável ehValido
+    Sendo assim eliminamos completamente a variável ehValido
+    *Não esqueça de colocar o atribudo name para cada um dos campos.
+
+Vamos criar a função possoEnviar para utilizar nos formularios, DadosPessoais e DadosUsuario além de atribuí-la ao form dentro de um if.
+
+Refatoramos em App.js: const [erros, setErros] = useState({cpf:{valido:true, texto:""}, nome:{valido:true, texto:""}})
+Em DadosUsuario.jsx passamos para o campo senha essas validações:
+                onBlur={validarCampos}
+                error={!erros.nome.valido}
+                helperText={erros.nome.texto}
+
+É possível refatorar essas funções para reutiliza-las e diminuir essa duplicação de códigos.
+
+    PERGUNTA: Da maneira que temos nosso componente FormularioCadastro até esse momento ele recebe algumas propriedades que ele não faz nada com elas, o único que ele faz é repassar essas propriedades para os componentes filhos dele.
+
+    Essa maneira de trabalhar com propriedades é chamada de prop drilling e é considerada uma má prática. Reflita sobre o problema e assinale a alternativa que mostra o problema com essa abordagem.
+
+    RESPOSTA: Essa é uma má prática porque vai contra o principio de DRY do SOLID, já que estamos repetindo esse padrão em diversos componentes. Esse acoplamento muito forte entre os componentes dificulta a reutilização deles.
+
+## useContext
+
+neste ponto, notamos que o objeto de validações caiu no mesmo problema anterior, ele apenas recebe propriedades para repassar para seus filhos e isso gera um complexidade a mais para o projeto, por isso precisamos apaga-lo da função FormularioCadastro({}), esse componente conhecer uma propriedade que ele mesmo não usa é uma má pratica para o projeto. E com isso aprendemos que não podemos passar a validações como ppropriedades para os formulários. 
+
+Mas como vamos fazer essas validações?
+
+Criando um contexto, quem estiver dentro dele vai usar, quem não estiver não vai usar. Vamos começar do mais simples. O que é um contexto dentro do que a gente fala do react? Contexto é uma forma da gente criar um grupo de dados, compor um grupo de dados, ou grupo de funções, funcionalidades, que quero transmitir para vários elementos da minha árvore de renderização. Vários componentes dentro do react. Esses componentes podem estar cinco ou seis níveis abaixo do meu elemento pai ou podem estar dentro do elemento pai, mas não importa, não quero que os elementos intermediários entre o pai e até onde a informação vai ser usada de fato tem que conhecer essa informação.
+
+Mas como assim criar um contexto, quem estiver dentro dele vai usar, quem não estiver não vai usar? Vamos começar do mais simples. O que é um contexto dentro do que a gente fala do react? Contexto é uma forma da gente criar um grupo de dados, compor um grupo de dados, ou grupo de funções, funcionalidades, que quero transmitir para vários elementos da minha árvore de renderização. Vários componentes dentro do react. Esses componentes podem estar cinco ou seis níveis abaixo do meu elemento pai ou podem estar dentro do elemento pai, mas não importa, não quero que os elementos intermediários entre o pai e até onde a informação vai ser usada de fato tem que conhecer essa informação.
+
+Criamos dentro da pasta src, uma pasta chamada contexts e dentro de contexts o arquivo validacoesCadastro.js
+Então importamos o useContext no arquivo DadosPessoais.jsx e validacoesCadastro, além de importa-las.
+São essas partes do código no arquivo DadosPessoais.jsx:
+  import React, {useState, useContext} from "react";
+  import validacoesCadastro from "../../contexts/validacoesCadastro";
+  const validacoes = useContext(validacoesCadastro)
+
+Depois fazemos o mesmo processo no DadosUsuario.jsx
+
+Depois disso, no console temos o erro de que a validacoesCadastro não está definida. Isso está acontecendo porque precisamos criar um provedor com as definições dessas validações. Em App.js vamos adicionar <validacoesCadastro.provider>
+Vai ficar assim no código:
+          <ValidacoesCadastro.Provider value={{ cpf:validarCPF, senha:validarSenha, nome:validarSenha }}>       
+              <FormularioCadastro onSubmit={onSubmitForm} />
+          </ValidacoesCadastro.Provider> 
+
+Agora vamos ver a mesma funcionalidade escrita de outra forma, sem o provider: 
+   Depois de copiar essa parte { cpf:validarCPF, senha:validarSenha, nome:validarSenha } e colamos em ValidacoesCadastro.js
+   Agora definimos o contexto direto no ValidacoesCadastro.js
+    const ValidacoesCadastro = React.createContext(
+    { cpf:semValidacao, senha:semValidacao, nome:semValidacao }
+      );
+
+    function semValidacao(dados) {
+        console.log(dados);
+        return {valido:true, texto:""};
+    }
+
+    *Nesse caso o contexto padrão é sem validações.
+Resumido, com ou sem provider o contexto precisa estar definido.
+
+## Hooks customizados
+
+É possível criar um hook personalizado de acordo com a funcionalidade necessária.
+Primeiro, criamos uma pasta hooks dentro da pasta src do projeto.
+E dentro dessa pasta, criamos um arquivo que obrigatóriamente começa com o sufixo use
+ Neste caso, useErros, porque queremos fazer a validação de erros.
+ 
+
+
+
+
+
+
+
+
 
 
         
