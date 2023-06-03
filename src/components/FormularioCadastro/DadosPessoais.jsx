@@ -1,20 +1,17 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { TextField, Button, Switch, FormControlLabel } from "@mui/material";
+import ValidacoesCadastro from "../../contexts/ValidacoesCadastro";
+import useErros from "../../hooks/useErros";
 
-function DadosPessoais({onSubmit, validacoes}) {
+function DadosPessoais({onSubmit}) {
     const [nome, setNome] = useState("")
     const [sobrenome, setSobrenome] = useState("")
     const [cpf, setCpf] = useState("")
     const [promocoes, setPromocoes] = useState(true)
     const [novidades, setNovidades] = useState(true)
-    const [erros, setErros] = useState({cpf:{valido:true, texto:""}})
-
-    function validarCampos(event) {
-            const {name, value} = event.target
-            const novoEstado = {...erros}
-            novoEstado[name] = validacoes[name](value)
-            setErros(novoEstado)       
-    }
+    
+    const validacoes = useContext(ValidacoesCadastro)
+    const [erros, validarCampos] = useErros(validacoes)
 
     function possoEnviar() {
         for(let campo in erros) {
@@ -39,6 +36,9 @@ function DadosPessoais({onSubmit, validacoes}) {
                 onChange={(event) => {
                     setNome(event.target.value)
                 }}
+                onBlur={validarCampos}
+                error={!erros.nome.valido}
+                helperText={erros.nome.texto}
                 id="nome" 
                 name="nome"
                 label="Nome" 
