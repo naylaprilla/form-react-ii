@@ -326,11 +326,32 @@ Resumido, com ou sem provider o contexto precisa estar definido.
 Primeiro, criamos uma pasta hooks dentro da pasta src do projeto.
 E dentro dessa pasta, criamos um arquivo que obrigatóriamente começa com o sufixo use
  Neste caso, useErros, porque queremos fazer a validação de erros.
- 
+  Fazemos o import useErros from "../../hooks/useErros";
+  E refatoramos criandos as chamadas:   
+                const validacoes = useContext(ValidacoesCadastro)
+                const [erros, validarCampos] = useErros(validacoes)
 
 
 
+## Considerações finais
 
+Parabéns por ter chegado até aqui, no final deste curso do nosso formulário de react, nosso curso de react onde a gente construiu um formulário. Bastante coisa que a gente aprendeu, muita coisa nova, muita refatoração também, boas práticas de como trabalhar com react, a trabalhar com assincronicidade, o problema de assincronicidade, vários hooks novos, inclusive o hook customizado que a gente criou, e nosso projeto final está aqui, ficou bem legal.
+
+É um formulário multipart, com várias partes no formulário, onde vamos agregando informações e no final envia para alguém e esse alguém vai decidir o que vai fazer com esse formulário.
+
+A gente tem esse projeto aqui e nosso código está bem legal. Fizemos muita coisa, nosso projeto está bem diferente. A gente começou só com um componente, nosso componente formulário, a gente criou mais três componentes ali que são subformulários que a gente está chamando, que também podem ser reutilizados, a gente criou nossos contextos, para ter um contexto de validação, onde por padrão não tenho validação nenhuma nesses campos, mas na hora que crio um provider dele no meu app.js, por exemplo, que a gente tem o provider desse contexto, esse provider pode mudar as informações que meu contexto vai passar para baixo, ele tem que definir quais validações a gente vai usar.
+
+A gente tem nosso formulário de cadastro, e por causa do nosso contexto, nosso context provider, ele não precisa saber de informações que ele não quer, por exemplo, o que vai ser validado e como vai ser validado, porque para ele não interessa esse formulário de cadastro, é só um componente que faz o gerenciamento de renderização. Ele é como se fosse uma máquina de estados para o nosso formulário. Ele vai definir o que está sendo renderizado e quando está sendo renderizado, a partir de um estado dele que é uma etapa atual.
+
+Além disso, ele vai coletando os dados e vai juntando, agregando eles para no final quando a gente estiver pronto para enviar esses dados chamar a propriedade de ao enviar que quem passou para mim foi meu app.js e esse app.js, ou quem quer que crie esse formulário pode decidir o que vai fazer com os dados que ele mesmo coletou.
+
+Várias coisas que a gente conseguiu fazer nesse curso, ficou muito legal. O hook customizado, a gente viu várias coisas de hook, revimos algumas regras, criamos nosso próprio hook para ter uma facilidade de implementação de coisas no react. No caso, usamos para validação de erros. Foi a última coisa que a gente viu. Também vimos como a gente queria as propriedades no nosso material ui, então propriedades novas, eventos novos, para deixar nosso layout um pouco mais padronizado também, além do nosso stepper ali em cima, que vai mostrar em qual passo a gente está. Outro componente novo que a gente viu do material ui.
+
+Bastante coisa, muito conteúdo, conteúdo denso, às vezes parece que a gente mexe pouco no código que no final, por trás dos panos está fazendo muita coisa. Se você olhar, por exemplo, nossos dados de usuário, essa linha de use erros faz um monte de coisas por trás, tudo isso abstraído no nosso hook. Olha tudo isso que estava duplicado entre vários componentes, a gente abstraiu para uma lógica e ficou muito melhor.
+
+É um curso que tem bastante conteúdo legal, você rever ele algumas vezes ou praticar mais, inclusive fica aqui o desafio Alura, marca a gente nas redes sociais se você fizer o desafio com a hashtag #desafioAlura, onde quero que você faça seu formulário multipart, então você melhore ele, adicione mais campos, campos diferentes que a gente não usou aqui, como data, text área, usar outros campos do material ui, novas tags. Bastante coisa que você consegue fazer e quero que você faça, vou adorar ver o que vocês fizeram a partir deste curso, além de querer ver o código de vocês.
+
+Se vocês subirem o código, manda para a gente do GitHub também que vou dar uma olhada com certeza para ver como vocês estão trabalhando e o que vocês aprenderam com este curso.
 
 
 
